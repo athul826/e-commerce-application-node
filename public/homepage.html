@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShopEase - Online Book Store</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background: #f5f7fa;
+      }
+
+      /* Navigation Bar */
+      .navbar {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 15px 40px;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .logo {
+        font-size: 1.5em;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        transition: 0.3s;
+      }
+
+      .nav-links a:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .cart-icon {
+        position: relative;
+        cursor: pointer;
+      }
+
+      .cart-count {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: #ff4757;
+        color: white;
+        border-radius: 50%;
+        padding: 2px 6px;
+        font-size: 0.8em;
+      }
+
+      /* Search Bar */
+      .search-bar {
+        padding: 20px;
+        background: white;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .search-container {
+        max-width: 600px;
+        margin: 0 auto;
+        display: flex;
+        gap: 10px;
+      }
+
+      .search-container input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1em;
+      }
+
+      .search-container button {
+        padding: 10px 20px;
+        background: #667eea;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .search-container button:hover {
+        background: #764ba2;
+      }
+
+      /* Product Grid */
+      .products-container {
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 0 20px;
+      }
+
+      .category-title {
+        font-size: 1.5em;
+        margin: 20px 0;
+        color: #2d3436;
+      }
+
+      .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        padding: 20px 0;
+      }
+
+      .product-card {
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: 0.3s;
+      }
+
+      .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .product-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+
+      .product-info {
+        padding: 15px;
+      }
+
+      .product-title {
+        font-size: 1.1em;
+        margin-bottom: 10px;
+        color: #2d3436;
+      }
+
+      .product-author {
+        color: #636e72;
+        font-size: 0.9em;
+        margin-bottom: 10px;
+      }
+
+      .product-price {
+        font-size: 1.2em;
+        color: #2d3436;
+        font-weight: bold;
+        margin-bottom: 15px;
+      }
+
+      .add-to-cart {
+        width: 100%;
+        padding: 10px;
+        background: #667eea;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .add-to-cart:hover {
+        background: #764ba2;
+      }
+
+      /* Footer */
+      .footer {
+        background: #2d3436;
+        color: white;
+        padding: 40px 20px;
+        margin-top: 50px;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+      }
+
+      .footer-section h3 {
+        margin-bottom: 20px;
+        font-size: 1.2em;
+      }
+
+      .footer-section p {
+        color: #b2bec3;
+        line-height: 1.6;
+      }
+
+      .footer-section ul {
+        list-style: none;
+      }
+
+      .footer-section ul li {
+        margin-bottom: 10px;
+      }
+
+      .footer-section ul li a {
+        color: #b2bec3;
+        text-decoration: none;
+        transition: 0.3s;
+      }
+
+      .footer-section ul li a:hover {
+        color: white;
+      }
+
+      @media (max-width: 768px) {
+        .navbar {
+          padding: 15px 20px;
+        }
+
+        .nav-links {
+          display: none;
+        }
+
+        .products-grid {
+          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="logo">
+        <i class="fas fa-shopping-bag"></i>
+        ShopEase Books
+      </div>
+      <div class="nav-links">
+        <a href="#"><i class="fas fa-home"></i> Home</a>
+        <a href="#"><i class="fas fa-book"></i> Categories</a>
+        <a href="#"><i class="fas fa-heart"></i> Wishlist</a>
+        <a href="#" id="username-display"></a>
+        <div class="cart-icon">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count">0</span>
+        </div>
+        <a href="#" onclick="logout()"
+          ><i class="fas fa-sign-out-alt"></i> Logout</a
+        >
+      </div>
+    </nav>
+
+    <div class="search-bar">
+      <div class="search-container">
+        <input type="text" placeholder="Search for books..." />
+        <button><i class="fas fa-search"></i> Search</button>
+      </div>
+    </div>
+
+    <main class="products-container">
+      <h2 class="category-title">Popular Books</h2>
+      <div class="products-grid" id="products-grid">
+        <!-- Products will be dynamically inserted here -->
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>About Us</h3>
+          <p>
+            ShopEase Books is your premier online destination for books. We
+            offer a wide selection of genres at competitive prices.
+          </p>
+        </div>
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Shipping Policy</a></li>
+            <li><a href="#">Return Policy</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Contact Info</h3>
+          <ul>
+            <li><i class="fas fa-phone"></i> +1 234 567 8900</li>
+            <li><i class="fas fa-envelope"></i> support@shopease.com</li>
+            <li>
+              <i class="fas fa-map-marker-alt"></i> 123 Book Street, Reading
+              City
+            </li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Sample book data
+      const books = [
+        {
+          id: 1,
+          title: "The Great Gatsby",
+          author: "F. Scott Fitzgerald",
+          price: 19.99,
+          image: "/api/placeholder/250/200",
+        },
+        {
+          id: 2,
+          title: "To Kill a Mockingbird",
+          author: "Harper Lee",
+          price: 15.99,
+          image: "/api/placeholder/250/200",
+        },
+        {
+          id: 3,
+          title: "1984",
+          author: "George Orwell",
+          price: 12.99,
+          image: "/api/placeholder/250/200",
+        },
+        {
+          id: 4,
+          title: "Pride and Prejudice",
+          author: "Jane Austen",
+          price: 9.99,
+          image: "/api/placeholder/250/200",
+        },
+        {
+          id: 5,
+          title: "The Hobbit",
+          author: "J.R.R. Tolkien",
+          price: 24.99,
+          image: "/api/placeholder/250/200",
+        },
+        {
+          id: 6,
+          title: "Harry Potter",
+          author: "J.K. Rowling",
+          price: 29.99,
+          image: "/api/placeholder/250/200",
+        },
+      ];
+
+      // Cart functionality
+      let cartItems = 0;
+      let username = localStorage.getItem("username") || "User";
+      document.getElementById(
+        "username-display"
+      ).innerHTML = `<i class="fas fa-user"></i> ${username}`;
+
+      function addToCart(bookId) {
+        cartItems++;
+        document.querySelector(".cart-count").textContent = cartItems;
+        alert("Book added to cart!");
+      }
+
+      function logout() {
+        localStorage.removeItem("username");
+        window.location.href = "/index.html";
+      }
+
+      // Display products
+      function displayProducts() {
+        const productsGrid = document.getElementById("products-grid");
+        books.forEach((book) => {
+          const productCard = `
+                    <div class="product-card">
+                        <img src="${book.image}" alt="${book.title}" class="product-image">
+                        <div class="product-info">
+                            <h3 class="product-title">${book.title}</h3>
+                            <p class="product-author">by ${book.author}</p>
+                            <p class="product-price">$${book.price}</p>
+                            <button class="add-to-cart" onclick="addToCart(${book.id})">
+                                <i class="fas fa-shopping-cart"></i> Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                `;
+          productsGrid.innerHTML += productCard;
+        });
+      }
+
+      // Initialize the page
+      displayProducts();
+    </script>
+  </body>
+</html>

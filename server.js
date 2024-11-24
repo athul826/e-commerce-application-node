@@ -59,16 +59,27 @@ app.post('/login', async (req, res) => {
     
     if (match) {
       req.session.userId = rows[0].id;
-      res.json({ success: true, message: 'Login successful' });
-    } else {
+      req.session.username = username;
+      res.json({ 
+          success: true, 
+          message: 'Login successful',
+          username: username,
+          redirectUrl: '/homepage.html'
+      });
+  } else {
       res.status(401).json({ success: false, message: 'Invalid credentials' });
-    }
-  } catch (error) {
-    res.status(500).json({ success: false, message: 'Login failed' });
   }
+} catch (error) {
+  res.status(500).json({ success: false, message: 'Login failed' });
+}
+});
+
+// Logout endpoint
+app.post('/logout', (req, res) => {
+req.session.destroy();
+res.json({ success: true, message: 'Logged out successfully' });
 });
 
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+console.log(`Server running at http://localhost:${port}`);
 });
-
