@@ -16,8 +16,36 @@ app.use(session({
   saveUninitialized: false
 }));
 
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'healthy' });
+});
+
+// Wait for database connection before initializing
+const connectWithRetry = () => {
+  return new Promise((resolve, reject) => {
+    console.log('Attempting to connect to database...');
+    
+    const tryConnect = () => {
+      pool.getConnection((err, connection) => {
+        if (err) {
+          console.error('Failed to connect to database. Retrying...', err);
+          setTimeout(tryConnect, 5000);
+        } else {
+          console.log('Database connection successful');
+          connection.release();
+          initDatabase();
+          resolve();
+        }
+      });
+    };
+
+    tryConnect();
+  });
+};
+
 // Initialize database
-initDatabase();
+//initDatabase();
 
 // Register endpoint
 app.post('/register', async (req, res) => {
